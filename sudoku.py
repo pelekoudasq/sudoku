@@ -28,13 +28,22 @@ def check_sudoku(grid):
 		printmd("#### Sudoku is **NOT** correct")
 	return
 
-def sudoku_print(grid):
+def sudoku_print(grid, bold={}):
 	print("-"*37)
 	for i, row in enumerate(grid):
-		print(("|" + " {}   {}   {} |"*3).format(*[x if x != 0 else " " for x in row]))
+		if i in bold:
+			print(("|" + " {}   {}   {} |"*3 + " <-- swapped").format(*[x if x != 0 else " " for x in row]))
+		else:
+			print(("|" + " {}   {}   {} |"*3).format(*[x if x != 0 else " " for x in row]))
 		if i == 8:
 			print("-"*37)
 		elif i % 3 == 2:
 			print("|" + "---+"*8 + "---|")
 
-# def swap_lines(grid, y1, y2):
+def swap_rows(grid, y1, y2):
+	new_grid = list(grid)
+	for i in range(0, 9):
+		temp = new_grid[y1][i]
+		new_grid[y1][i] = new_grid[y2][i]
+		new_grid[y2][i] = temp
+	return new_grid
